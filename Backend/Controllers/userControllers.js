@@ -228,5 +228,126 @@ const myAccount = async ( req , res) =>{
         })
     }
  }
-module.exports = { signupUser , loginUser , isLogin, myAccount , updatePassword}
+
+
+
+ const updateProfile = async (req, res) => {
+    try {
+        const { newName, newEmail, newSkills } = req.body
+        const userId = req.user._id
+
+        // Find the user
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            })
+        }
+
+        // Check if files are present in request
+        if (!req.files) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please upload files'
+            })
+        }
+
+        // Handle Avatar Update
+        if (req.files.newAvatar) {
+            // Delete old avatar
+            if (user.avatar.public_id) {
+                await cloudinary.uploader.destroy(user.avatar.public_id)
+            }
+            
+            // Upload new avatar
+            const myAvatar = await cloudinary.uploader.upload(req.files.newAvatar.tempFilePath, {
+                folder: 'avatar',
+                crop: 'scale',
+            })
+
+            user.avatar = {
+                public_id: myAvatar.public_id,
+                url: myAvatar.secure_url
+            }
+        }
+
+        // Handle Resume Update
+        if (req.files.newResume) {
+            // Delete old resume
+            if (user.resume.public_id) {
+                await cloudinary.uploader.destroy(user.resume.public_id)
+            }
+
+            // Upload new resume
+            const myResume = await cloudinary.uploader.upload(req.files.newResume.tempFilePath, {
+                folder: 'resume',
+                resource_type: 'auto',
+                crop: 'fit'
+            })
+
+            user.resume = {
+                public_id: myResume.public_id,
+                url: myResume.secure_url
+            }
+        }
+
+        // Update other fields
+        if (newName) user.name = newName
+        if (newEmail) user.email = newEmail
+        if (newSkills) {
+            // Parse skills if it's a string
+            user.skills = typeof newSkills === 'string' ? JSON.parse(newSkills) : newSkills
+        }
+
+        // Save the updated user
+        await user.save()
+
+        res.status(200).json({
+            message: 'Profile Updated',
+            success: true,
+            user
+        })
+
+    } catch (error) {
+        console.log('Error:', error)
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+const deleteAccount = async ( req , res) =>{
+    try {
+        
+        const userId = req.user
+
+        const user = await User.findById(userId)
+
+        const isMatch = await bcrypt.compare(req.body.password , user.password)
+
+        if(isMatch){
+           await User.findByIdAndDelete(userId)
+        } else{
+            return res.status(401).json({
+                message:'Password Does Not Matched',
+                success:'False'
+            })
+        }
+
+        res.status(200).json({
+            message:'Account Deleted',
+            success:true
+        })
+ 
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success:false,
+            message:'Internal Server Error'
+        })
+    }
+}
+module.exports = { signupUser , loginUser , isLogin, myAccount , updatePassword , updateProfile , deleteAccount}
 
