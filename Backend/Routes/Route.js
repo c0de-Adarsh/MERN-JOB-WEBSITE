@@ -8,7 +8,7 @@ const {signupUser , loginUser , isLogin, myAccount, updatePassword , updateProfi
 
 
 //job Routes
-const {createJob} = require('../Controllers/jobControllers')
+const {createJob , allJobs, oneJob} = require('../Controllers/jobControllers')
 
 const {jwtAuthMiddleware,authorizationRole} = require('../jwt');
 const fileUpload = require('express-fileupload');
@@ -22,6 +22,8 @@ router.use(fileUpload({
 
 //job routes
 router.route('/create/job').post(jwtAuthMiddleware,authorizationRole("admin"),createJob)
+router.route('/alljobs').get(allJobs)
+router.route('/job/:id').get(oneJob)
 
 
 

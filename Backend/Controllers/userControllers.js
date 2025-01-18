@@ -10,40 +10,106 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+// const signupUser = async (req, res) => {
+//     try {
+
+//         const { name, email, password,  skills,  } = req.body
+
+//         if(!req.files || !req.files.avatar || !req.files.resume){
+//             return res.status(401).json({
+//                 success:false,
+//                 message:'Please upload both resume and avatar'
+//             })
+//         }
+
+//         //upload avtar and resume to Cloudinary
+//         // const avtarUpload = await cloudinary.uploader.upload(avatar, { folder: 'avatar', crop: 'scale' })
+
+//         const avtarUpload = await cloudinary.uploader.upload(req.files.avatar.tempFilePath, {
+//             folder: 'avatar',
+//             resource_type: 'image',
+//             crop: 'scale'
+//         })
+
+
+//         //const resumeUpload = await cloudinary.uploader.upload(resume, { folder: 'resume', crop: 'fit' })
+        
+//         // Upload resume - use the path of the temporary file
+//         const resumeUpload = await cloudinary.uploader.upload(req.files.resume.tempFilePath, {
+//             folder: 'resume',
+//             resource_type: 'auto', // Important for PDF files
+//             crop: 'fit'
+//         })
+
+//         //hast the password before saving 
+
+//         const hashPassword = await bcrypt.hash(password, 10)
+
+//         const user = await User.create({
+//             name,
+//             email,
+//             password: hashPassword,
+//             avatar: { public_id: avtarUpload.public_id, url: avtarUpload.secure_url },
+//             skills,
+//             resume: { public_id: resumeUpload.public_id, url: resumeUpload.secure_url }
+//         })
+
+//         //generate token
+
+//         const token = generateToken(user._id, user.email)
+
+//         res.status(200).json({
+//             success: true,
+//             message: 'User Register Successfully',
+//             token,
+//             user
+//         })
+
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: error.message,
+//             success: false
+//         })
+//     }
+// }
+
 const signupUser = async (req, res) => {
     try {
+        const { name, email, password, skills  } = req.body;
+      
 
-        const { name, email, password,  skills,  } = req.body
+        const role = req.body.role?.replace(/['"]+/g, '') || 'applicant';
 
-        if(!req.files || !req.files.avatar || !req.files.resume){
+        //console.log('Processed role:', role); // Debug log
+        // Check if files exist
+        if (!req.files || !req.files.avatar || !req.files.resume) {
             return res.status(401).json({
-                success:false,
-                message:'Please upload both resume and avatar'
-            })
+                success: false,
+                message: 'Please upload both resume and avatar'
+            });
         }
 
-        //upload avtar and resume to Cloudinary
-        // const avtarUpload = await cloudinary.uploader.upload(avatar, { folder: 'avatar', crop: 'scale' })
+        // Get the first file if arrays are sent
+        const avatar = Array.isArray(req.files.avatar) ? req.files.avatar[0] : req.files.avatar;
+        const resume = Array.isArray(req.files.resume) ? req.files.resume[0] : req.files.resume;
 
-        const avtarUpload = await cloudinary.uploader.upload(req.files.avatar.tempFilePath, {
+        // Upload avatar
+        const avtarUpload = await cloudinary.uploader.upload(avatar.tempFilePath, {
             folder: 'avatar',
             resource_type: 'image',
             crop: 'scale'
-        })
+        });
 
-
-        //const resumeUpload = await cloudinary.uploader.upload(resume, { folder: 'resume', crop: 'fit' })
-        
-        // Upload resume - use the path of the temporary file
-        const resumeUpload = await cloudinary.uploader.upload(req.files.resume.tempFilePath, {
+        // Upload resume
+        const resumeUpload = await cloudinary.uploader.upload(resume.tempFilePath, {
             folder: 'resume',
-            resource_type: 'auto', // Important for PDF files
+            resource_type: 'auto',
             crop: 'fit'
-        })
+        });
 
-        //hast the password before saving 
-
-        const hashPassword = await bcrypt.hash(password, 10)
+        // Hash the password before saving
+        const hashPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
             name,
@@ -51,30 +117,28 @@ const signupUser = async (req, res) => {
             password: hashPassword,
             avatar: { public_id: avtarUpload.public_id, url: avtarUpload.secure_url },
             skills,
-            resume: { public_id: resumeUpload.public_id, url: resumeUpload.secure_url }
-        })
+            resume: { public_id: resumeUpload.public_id, url: resumeUpload.secure_url },
+            role
+        });
 
-        //generate token
-
-        const token = generateToken(user._id, user.email)
+        // Generate token
+        const token = generateToken(user._id, user.email);
 
         res.status(200).json({
             success: true,
             message: 'User Register Successfully',
             token,
             user
-        })
+        });
 
     } catch (error) {
-        console.log(error)
+        console.log('Detailed error:', error);
         res.status(500).json({
             message: error.message,
             success: false
-        })
+        });
     }
-}
-
-
+};
 
 
 const loginUser = async ( req , res) =>{
