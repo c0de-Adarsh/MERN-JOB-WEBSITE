@@ -10,6 +10,11 @@ const {signupUser , loginUser , isLogin, myAccount, updatePassword , updateProfi
 //job Routes
 const {createJob , allJobs, oneJob , savedJob, savedJobsList} = require('../Controllers/jobControllers')
 
+
+//application routes
+
+const {createApplication, getSingleApplication , getAllUserApplications, deleteApplication} = require('../Controllers/applicationControllers')
+
 const {jwtAuthMiddleware,authorizationRole} = require('../jwt');
 const fileUpload = require('express-fileupload');
 
@@ -37,4 +42,11 @@ router.route('/myaccount').get(jwtAuthMiddleware,myAccount)
 router.route('/changepassword').put(jwtAuthMiddleware,updatePassword)
 router.route('/updateprofile').put(jwtAuthMiddleware,updateProfile)
 router.route('/deleteaccount').delete(jwtAuthMiddleware,deleteAccount)
+
+
+//application routes
+router.route('/createapplication/:id').post(jwtAuthMiddleware,createApplication)
+router.route('/singleapplication/:id').get(jwtAuthMiddleware,getSingleApplication)
+router.route('/getallapplication').get(jwtAuthMiddleware,getAllUserApplications)
+router.route('/deleteapplication/:id').delete(jwtAuthMiddleware,deleteApplication)
 module.exports = router
