@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router'
 import { BsPersonWorkspace } from "react-icons/bs";
+import { RxCross1 } from 'react-icons/rx';
+import { FaBars } from 'react-icons/fa';
 
 const NavBar = () => {
+
+    const [toggle , setToggle] = useState(false)
     return (
         <>
             <div className='min-w-full bg-gray-950 text-white z-20 fixed'>
@@ -19,6 +23,19 @@ const NavBar = () => {
                         <Link className='bg-blue-700 px-3 py-1 text-sm rounded-xl'>Signup</Link>
                     </span>
                 </ul>
+
+                <div className='py-3 px-3 md:hidden justify-between items-center flex'>
+
+                <div className='pr-1 '>
+                  {
+                    toggle ? (
+                        <RxCross1 size={24}/>
+                    ) : (
+                        <FaBars size={24} />
+                    )
+                  }
+                </div>
+                </div>
             </div>
         </>
     )
