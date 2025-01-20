@@ -18,8 +18,9 @@ const {createApplication, getSingleApplication , getAllUserApplications, deleteA
 
 //admin routes
 
-const {gettAllJobs, getAllJobs} = require('../Controllers/adminControllers')
-const {jwtAuthMiddleware,authorizationRole} = require('../jwt');
+const {getAllJobs , getAllUser , getAllApplication , updateApplicationStatus , admindeleteApplication ,getApplication , updateUser , deleteUser , getUser , updateJob ,singleJob , deleteJob} = require('../Controllers/adminControllers')
+
+const {jwtAuthMiddleware,authorizationRole } = require('../jwt');
 const fileUpload = require('express-fileupload');
 
 
@@ -31,6 +32,20 @@ router.use(fileUpload({
 
 //admin routes
 router.route('/admin/alljobs').get(jwtAuthMiddleware , authorizationRole('admin'),getAllJobs)
+router.route('/admin/getalluser').get(jwtAuthMiddleware, authorizationRole('admin'),getAllUser)
+router.route('/admin/getallappllication').get(jwtAuthMiddleware , authorizationRole('admin'),getAllApplication)
+router.route('/admin/updateapplication/:id').put(jwtAuthMiddleware,authorizationRole('admin'),updateApplicationStatus)
+router.route('/admin/deleteapplication/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),deleteApplication)
+router.route('/admin/deleteapplication/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),admindeleteApplication)
+router.route('/admin/getapplication/:id').get(jwtAuthMiddleware,authorizationRole('admin'),getApplication)
+router.route('/admin/updateuser/:id').put(jwtAuthMiddleware,authorizationRole('admin'),updateUser)
+router.route('/admin/deleteuser/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),deleteUser)
+router.route('/admin/getuser/:id').get(jwtAuthMiddleware,authorizationRole('admin'),getUser)
+router.route('/admin/updatejob/:id').put(jwtAuthMiddleware,authorizationRole('admin'),updateJob)
+router.route('/admin/singlejob/:id').get(jwtAuthMiddleware,authorizationRole('admin'),singleJob)
+router.route('/admin/deletejob/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),deleteJob)
+
+
 
 //job routes
 router.route('/create/job').post(jwtAuthMiddleware,authorizationRole("admin"),createJob)
