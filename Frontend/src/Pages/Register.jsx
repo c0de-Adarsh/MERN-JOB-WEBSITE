@@ -106,20 +106,20 @@ const Register = () => {
           {/* name input */}
           <div className='bg-white flex justify-center items-center'>
             <div className='text-gray-700 px-2'><FaUserCircle size={20} /></div>
-            <input onChange={(e)=> setName(e.target.value)} type="text" placeholder='Enter Your Name' className='outline-none w-full text-black px-1 pr-3 py-2' required />
+            <input onChange={(e)=> setName(e.target.value)} value={name} type="text" placeholder='Enter Your Name' className='outline-none w-full text-black px-1 pr-3 py-2' required />
           </div>
 
           {/* mail input */}
           <div className='bg-white flex justify-center items-center'>
             <div className='text-gray-700 px-2'><MdOutlineMarkEmailUnread size={20}/></div>
-            <input type="email" onChange={(e)=> setEmail(e.target.value)} required placeholder='Enter Your Email' className='outline-none w-full text-black px-1 pr-3 py-2' />
+            <input type="email" onChange={(e)=> setEmail(e.target.value)} value={email} required placeholder='Enter Your Email' className='outline-none w-full text-black px-1 pr-3 py-2' />
           </div>
            
 
            {/* password */}
           <div className='bg-white flex justify-center items-center'>
             <div className='text-gray-700 px-2'><TbLockPassword size={20}/></div>
-            <input type="password" onChange={(e)=> setPassword(e.target.value)} required placeholder='Enter Your Password' className='outline-none w-full text-black px-1 py-2 pr-3'/>
+            <input type="password" onChange={(e)=> setPassword(e.target.value)} value={password} required placeholder='Enter Your Password' className='outline-none w-full text-black px-1 py-2 pr-3'/>
             <div className='text-gray-600 px-2 cursor-pointer'>
             <AiOutlineEye size={20} />
             </div>
@@ -157,7 +157,7 @@ const Register = () => {
                   resume.length === 0 ? <span className='text-gray-500 cursor-pointer font-medium'>Select Resume...</span> : resumeName
                 }
                 </label>
-              <input required type="file" onChange={resumeHandler} placeholder='Resume' id='resume' name='resume' accept='image/*' className=' outline-none hidden w-full text-black px-1 pr-3 py-2' />
+              <input required type="file" onChange={resumeHandler} placeholder='Resume' id='resume' name='resume' accept='.pdf,.doc,.docx' className=' outline-none hidden w-full text-black px-1 pr-3 py-2' />
             </div>
             <p className=' text-white text-xs'>Please select file</p>
           </div>
@@ -168,7 +168,7 @@ const Register = () => {
               <div className='text-gray-600 md:pb-12 pb-8 px-2 mt-1'>
               <TfiWrite size={20} />
               </div>
-              <textarea name="" id="" className='outline-none w-full text-black bold-placeholder px-1 pr-3 py-2'/>
+              <textarea name="" id="" value={skills} onChange={(e)=> setSkills(e.target.value)} className='outline-none w-full text-black bold-placeholder px-1 pr-3 py-2'/>
           </div>
 
 
