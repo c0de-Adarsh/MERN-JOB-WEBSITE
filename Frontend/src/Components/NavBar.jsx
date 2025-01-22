@@ -42,8 +42,8 @@ import useIsMobile from '../Mobile/Mobile';
         <>
             <div className='text-white z-20 fixed min-w-full bg-gray-950'>
               {!isMobile &&  <ul className='sm:flex  justify-center items-center gap-24 pt-4 pb-3 font-semibold text-xl'>
-                    <Link to="/" className='flex fixed left-24 justify-center items-center titleT'>
-                        <BsPersonWorkspace size={19} />  JOBLANE
+                    <Link to="/" className='flex gap-1 fixed left-24 justify-center items-center titleT'>
+                        <BsPersonWorkspace size={19} />  JobTrail
                     </Link>
 
                     <Link to="/" className='cool-link'>Home</Link>
@@ -76,7 +76,7 @@ import useIsMobile from '../Mobile/Mobile';
 
                 <div className='py-3 px-3 md:hidden justify-between items-center flex'>
                     <Link to="/" className='text-lg titleT flex justify-center items-center gap-1'>
-                        <BsPersonWorkspace size={19} /> JOBLANE
+                        <BsPersonWorkspace size={19} /> JobTrail
                     </Link>
                     <div className='flex justify-center items-center'>
                         <div className='pr-12'>
