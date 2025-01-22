@@ -1,13 +1,14 @@
 import { registerFail, registerRequest, registerSuccess } from "../Slice/UserSlice"
 import axios from 'axios'
 import { toast } from 'react-toastify'
-const registerUser = (userData) =>async(dispatch) => {
+import API from "../Utils/Index"
+export const registerUser = (userData) =>async(dispatch) => {
      
     try {
         
         dispatch(registerRequest())
 
-        const {data} = await axios.post('http://localhost:5000/signup',userData);
+        const {data} = await axios.post(`${API}/signup`,userData);
 
         dispatch(registerSuccess())
         localStorage.setItem('UserToken',data.token)
@@ -21,3 +22,4 @@ const registerUser = (userData) =>async(dispatch) => {
         }
     }
 }
+
