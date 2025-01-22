@@ -5,16 +5,17 @@ import { MdOutlineMarkEmailUnread } from 'react-icons/md'
 import { TbLockPassword, TbUserCircle } from "react-icons/tb";
 import { FaRegFileLines } from "react-icons/fa6";
 import { TfiWrite } from "react-icons/tfi";
+import {Link} from 'react-router-dom'
 
 const Register = () => {
   return (
    <>
    <Metadata title='register' />
-   <div className='bg-gray-950 min-h-screen pt-14 md:px-20 px-3  text-white'>
+   <div className='bg-gradient-to-b from-purple-900 to-blue-500 min-h-screen pt-14 md:px-20 px-3  text-white'>
      
      <div className='flex justify-center w-full items-start pt-6'>
 
-      <form action="" className='flex flex-col md:w-1/3 shadow-gray-700 w-full md:mx-0 mx-8'>
+      <form action="" className='flex flex-col md:w-1/3 shadow-2xl  rounded-md w-full md:mx-0 mx-8'>
 
         <div className='md:px-10 px-2 pt-4 pb-20 w-full flex flex-col gap-4'>
           <div className='text-center'>
@@ -52,7 +53,7 @@ const Register = () => {
 
             <label htmlFor="" className='w-full outline-none cursor-pointer  text-black px-1 pr-3 py-2'><span className='text-gray-500 font-medium'>Select Profile Pic...</span></label>
             </div>
-            <p className='bg-gray-950 text-white text-xs'>Please Select Image File</p>
+            <p className=' text-white text-xs'>Please Select Image File</p>
           </div>
 
           {/* resume */}
@@ -65,7 +66,7 @@ const Register = () => {
               <label htmlFor="" className='w-full outline-none cursor-pointer text-black px-1 pr-3 py-2'><span className='text-gray-500 cursor-pointer font-medium'>Select Resume...</span></label>
               <input type="file" placeholder='Resume' accept='image/*' className='hidden outline-none hidden w-full text-black px-1 pr-3 py-2' />
             </div>
-            <p className='bg-gray-950 text-white text-xs'>Please select file</p>
+            <p className=' text-white text-xs'>Please select file</p>
           </div>
 
           {/* skills */}
@@ -80,7 +81,11 @@ const Register = () => {
 
           {/* button */}
           <div>
-            <button className='bg-blue-600 py-2 w-full'>Register</button>
+            <button className='bg-blue-700 py-2 w-full'>Register</button>
+          </div>
+
+          <div className='text-center text-sm pt-2'>
+            <p>Already Have a Account,<Link to='/login' className='text-yellow-400 underline'>Login</Link>here.</p>
           </div>
         </div>
       </form>
