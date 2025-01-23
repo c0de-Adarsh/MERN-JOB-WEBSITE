@@ -23,7 +23,7 @@
 //     }
 // }
 
-import { registerFail, registerRequest, registerSuccess } from "../Slice/UserSlice";
+import { isLoginSuccess, registerFail, registerRequest, registerSuccess } from "../Slice/UserSlice";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import API from "../Utils/Index";
@@ -52,6 +52,7 @@ export const registerUser = (userData) => async (dispatch) => {
         const { data } = await axios.post(`${API}/signup`, formData, config);
 
         dispatch(registerSuccess());
+        dispatch(isLoginSuccess(true))
         localStorage.setItem('UserToken', data.token);
         toast.success("Registration Successful");
 

@@ -49,6 +49,7 @@ const UserSlice = createSlice({
         },
         registerSuccess: (state) => {
             state.loading = false;
+            state.isLogin = true
         },
         registerFail: (state, action) => {
             state.loading = false;

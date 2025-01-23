@@ -72,22 +72,23 @@ const Register = () => {
     console.log("Data to Dispatch: ", data);
     disptach(registerUser(data))
 
-    setName('')
-    setEmail('')
-    setPassword('')
-    setAvatar('')
-    setAvatarName('')
-    setResume('')
-    setResumeName('')
-    setSkills('')
-
+    
   }
-
+ 
   useEffect(() => {
+   
     if (isLogin) {
-      navigate('/')
+      setName("");
+      setEmail("");
+      setPassword("");
+      setAvatar(null);
+      setAvatarName("");
+      setResume(null);
+      setResumeName("");
+      setSkills("");
+        navigate('/');
     }
-  }, [isLogin])
+}, [isLogin, navigate]);
   return (
     <>
       <Metadata title='register' />

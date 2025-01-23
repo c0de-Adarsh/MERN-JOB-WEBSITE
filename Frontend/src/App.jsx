@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,8 +7,11 @@ import Register from './Pages/Register'
 import Login from './Pages/Login'
 import About from './Pages/About'
 import Home from './Pages/Home';
+import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
+
+ 
   return (
     <>
     <BrowserRouter>
