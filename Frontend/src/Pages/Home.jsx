@@ -89,8 +89,27 @@ const Home = () => {
     </div>
 
     
-    <div>
+    <div >
       <p className='md:text-xl text-sm'>Step Into Your <span className='text-yellow-400'>Dream</span> Career</p>
+    </div>
+
+
+
+    <div className='pt-[8rem] md:px-[1rem] px-[0rem] w-full'>
+      <div className='pb-6 text-2xl titleT'>
+        <p className='titleT font-semibold'>Featured Jobs</p>
+      </div>
+
+       
+       <div>
+        {
+          
+        }
+       </div>
+
+
+
+
     </div>
 
 
