@@ -75,7 +75,9 @@ cloudinary.config({
 // }
 
 const signupUser = async (req, res) => {
-    try {
+    try { 
+
+       
         const { name, email, password, skills  } = req.body;
       
 
