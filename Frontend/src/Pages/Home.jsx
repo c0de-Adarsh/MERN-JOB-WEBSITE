@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Metadata from '../Components/Metadata'
 import { Link } from 'react-router'
+import {useDispatch, useSelector} from 'react-redux'
 
 const Home = () => {
+       
+       const [num , setNum] = useState()
+       const dispatch = useDispatch()
+       const {loading , allJobs} = useSelector(state=> state.job)
+       const [jobs , setJobs] = useState([])
 
    const data = [
      {
@@ -12,7 +18,7 @@ const Home = () => {
       link:"/JOB/2.jpg"
      },
      {
-      link:"/JOB/3.webp"
+      link:"/JOB/3.jpg"
      },
      {
       link:"/JOB/4.jpg"
@@ -27,16 +33,16 @@ const Home = () => {
       link:"/JOB/7.webp"
      },
      {
-      link:"/JOB/8.jpg"
+      link:"/JOB/23.png"
      },
      {
       link:"/JOB/9.png"
      },
      {
-      link:"/JOB/10.webp"
+      link:"/JOB/10.jpeg"
      },
      {
-      link:"/JOB/11.jpeg"
+      link:"/JOB/11.png"
      },
      {
       link:"/JOB/12.jpg"
@@ -103,7 +109,15 @@ const Home = () => {
        
        <div>
         {
-          
+          loading ?
+          <div className='w-full flex justify-center items-center'>
+            <span className='loader1'></span>
+          </div> : 
+          <div>
+          <div className='flex md:flex-row flex-col gap-3'>
+
+          </div>
+          </div>
         }
        </div>
 
@@ -112,7 +126,26 @@ const Home = () => {
 
     </div>
 
+      
 
+      <div className='pt-20 flex flex-col gap-4 md:px-[1rem] px-[1rem]'>
+        <div className='titleT text-2xl font-semibold'>
+          Companies on our site
+        </div>
+
+
+        <div className='flex flex-wrap gap-3'>
+         {
+          data.map((e , i)=>(
+            <div key={i}>
+              <img src={e.link} className='w-[4rem]  object-fit' alt="" />
+            </div>
+          ))
+         }
+        </div>
+
+
+      </div>
     </div>
    </div>
    </>
