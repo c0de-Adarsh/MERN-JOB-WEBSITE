@@ -45,10 +45,10 @@ const Home = () => {
       link:"/JOB/11.png"
      },
      {
-      link:"/JOB/12.jpg"
+      link:"/JOB/12.png"
      },
      {
-      link:"/JOB/13.jpg"
+      link:"/JOB/13.png"
      },
      {
       link:"/JOB/14.jpg"
