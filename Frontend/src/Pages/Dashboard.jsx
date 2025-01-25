@@ -22,7 +22,14 @@ const Dashboard = () => {
         </div>
       </div>
 
+       {
 
+       <>
+       <div className='flex justify-center items-center text-4xl pt-8'>
+        <p className='border-b pb-3 border-gray-600 text-center font-medium w-1/2'>Dashboard</p>
+       </div>
+       </>
+       }
    </div>
    </>
   )
