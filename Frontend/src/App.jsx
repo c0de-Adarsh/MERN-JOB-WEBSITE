@@ -8,6 +8,7 @@ import Login from './Pages/Login'
 import About from './Pages/About'
 import Home from './Pages/Home';
 import { useDispatch, useSelector } from 'react-redux';
+import Dashboard from './Pages/Dashboard';
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/about' element={<About/>}/>
+      <Route path='/admin/dashboard' element={<Dashboard/>                  } />
     </Routes>
     <ToastContainer
         position="top-right"
