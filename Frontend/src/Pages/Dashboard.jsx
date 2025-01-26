@@ -17,7 +17,7 @@ const Dashboard = () => {
      const {loading , allJobs , allApplications, allUsers} = useSelector(state=> state.admin)
 
      useEffect(()=>{
-      dispatch()
+      
      })
   return (
    <>

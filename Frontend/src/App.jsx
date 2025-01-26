@@ -22,7 +22,7 @@ const App = () => {
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/about' element={<About/>}/>
-      <Route path='/admin/dashboard' element={<Dashboard/>                  } />
+      <Route path='/admin/dashboard' element={<Dashboard/>} />
     </Routes>
     <ToastContainer
         position="top-right"

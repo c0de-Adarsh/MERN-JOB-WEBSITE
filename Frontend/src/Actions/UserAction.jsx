@@ -23,7 +23,7 @@
 //     }
 // }
 
-import { isLoginSuccess, registerFail, registerRequest, registerSuccess } from "../Slice/UserSlice";
+import { getMeFail, getMeRequest, getMeSuccess, isLoginFail, isLoginRequest, isLoginSuccess, loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess } from "../Slice/UserSlice";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import API from "../Utils/Index";
@@ -66,3 +66,58 @@ export const registerUser = (userData) => async (dispatch) => {
         }
     }
 };
+
+export const loginUser = (userData) => async (dispatch) =>{
+    try {
+        
+        dispatch(loginRequest())
+
+        const {data} = await axios.post(`${API}/login`,userData)
+        dispatch(loginSuccess())
+        localStorage.setItem('userToken',data.token)
+        dispatch(logOrNot())
+        dispatch(me())
+        toast.success('Login Successfully')
+       
+    } catch (error) {
+        dispatch(loginFail(error.response.data.message))
+        toast.error(error.response.data.message)
+    }
+}
+
+export const logOrNot = () => async (dispatch) =>{
+    try {
+        
+        dispatch(isLoginRequest())
+
+        const config = {
+            headers:{
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`
+            }
+        }
+
+        const {data} = await axios.get(`${API}/islogin`,config)
+        dispatch(isLoginSuccess(data.isLogin))
+    } catch (error) {
+       dispatch(isLoginFail(error.response.data.message))   
+    }
+}
+
+export const me = () => async (dispatch) =>{
+    try {
+        
+        dispatch(getMeRequest())
+        const config = {
+            headers:{
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`
+            }
+        }
+
+        const {data} = await axios.get(`${API}/myaccount`,config)
+        localStorage.setItem('role',data.role)
+        dispatch(getMeSuccess(data.role))
+        console.log(data.role)
+    } catch (error) {
+        dispatch(getMeFail(error.response.data.message))
+    }
+}
