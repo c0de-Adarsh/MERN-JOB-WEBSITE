@@ -26,7 +26,7 @@ const Dashboard = () => {
       
 
       <div className='pt-1 fixed left-0 z-20 pl-0'>
-        <div onClick={(()=> setSideToggle(sideToggle))} className='blueCol cursor-pointer px-3 py-2'>
+        <div onClick={(()=> setSideToggle(!sideToggle))} className='blueCol cursor-pointer px-3 py-2'>
         {!sideToggle ? "Menu":<RxCross1 size={44}/>}
         </div>
       </div>
