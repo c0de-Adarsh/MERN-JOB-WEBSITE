@@ -46,6 +46,8 @@ import useIsMobile from '../Mobile/Mobile';
                         <BsPersonWorkspace size={19} />  JobTrail
                     </Link>
 
+
+
                     <Link to="/" className='cool-link'>Home</Link>
                     <Link to="/jobs" className='cool-link'>Jobs</Link>
                     <Link to='/contact' className='cool-link'>Contact</Link>

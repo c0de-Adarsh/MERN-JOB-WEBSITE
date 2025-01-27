@@ -23,7 +23,7 @@
 //     }
 // }
 
-import { getMeFail, getMeRequest, getMeSuccess, isLoginFail, isLoginRequest, isLoginSuccess, loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess } from "../Slice/UserSlice";
+import { changePasswordFail, changePasswordRequest, changePasswordSuccess, deleteAccountFail, deleteAccountRequest, deleteAccountSuccess, getMeFail, getMeRequest, getMeSuccess, isLoginFail, isLoginRequest, isLoginSuccess, loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess, updateProfileFail, updateProfileRequest, updateProfileSuccess } from "../Slice/UserSlice";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import API from "../Utils/Index";
@@ -119,5 +119,75 @@ export const me = () => async (dispatch) =>{
         console.log(data.role)
     } catch (error) {
         dispatch(getMeFail(error.response.data.message))
+    }
+}
+
+export const changePassword = (userData) => async (dispatch) =>{
+    try {
+        dispatch(changePasswordRequest())
+
+        const config = {
+            headers:{
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`
+            }
+        }
+
+        const {data} = await axios.put(`${API}/changepassword`,config,userData)
+        dispatch(changePasswordSuccess())
+
+        toast.success('Password Changed Successfully')
+    } catch (error) {
+        dispatch(changePasswordFail())
+        toast.error(error.response.data.message)
+    }
+}
+
+export const updateProfile = (userData) => async (dispatch) =>{
+    try {
+        
+        dispatch(updateProfileRequest())
+
+        const config = {
+            headers:{
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`
+            }
+        }
+
+        const {data} = await axios.put(`${API}/updateprofile`,config,userData)
+        dispatch(updateProfileSuccess())
+        toast.success('Profile updated successfully')
+        dispatch(me())
+    } catch (error) {
+        dispatch(updateProfileFail(error.response.data.message))
+        toast.error(error.response.data.message)
+    }
+}
+
+export const deleteAccount = (userData) => async (dispatch) =>{
+    try {
+       
+        dispatch(deleteAccountRequest())
+
+        const config = {
+            headers:{
+                Authorization: ` Bearer ${localStorage.getItem('userToken')}`
+            }
+        }
+
+        const {data} = await axios.put(`${API}/deleteaccount`,userData,config)
+
+        dispatch(deleteAccountSuccess())
+
+        if(data.message === "Account Deleted"){
+            toast.success('Account Deleted Successfully!')
+            localStorage.removeItem('userToken')
+            dispatch(logOrNot())
+            dispatch(logoutClearState())
+        }else{
+            toast.error('Wrong Password')
+        }
+    } catch (error) {
+        dispatch(deleteAccountFail(error.response.data.message))
+        toast.error(error.response.data.message)
     }
 }

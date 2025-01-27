@@ -17,12 +17,12 @@ const Dashboard = () => {
      const {loading , allJobs , allApplications, allUsers} = useSelector(state=> state.admin)
 
      useEffect(()=>{
-      
+        
      })
   return (
    <>
    <Metadata title='Dashboard' />
-   <div className='bg-gray-900 min-h-screen pt-14 md:px-20 px-3 text-white'>
+   <div className='bg-gradient-to-b from-purple-900 to-blue-500 min-h-screen pt-14 md:px-20 px-3 text-white'>
       
 
       <div className='pt-1 fixed left-0 z-20 pl-0'>

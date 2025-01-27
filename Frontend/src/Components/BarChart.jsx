@@ -37,7 +37,7 @@ const BarChart = ({ users = 1, jobs, applications }) => {
     };
   }, [users, jobs, applications]); // Add dependencies to re-render when props change
 
-  return <canvas ref={chartRef}></canvas>;
+  return <canvas  ref={chartRef}></canvas>;
 };
 
 export default BarChart;

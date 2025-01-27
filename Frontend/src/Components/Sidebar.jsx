@@ -1,7 +1,8 @@
 import React from 'react'
 import {motion} from 'framer-motion'
 import {Link} from 'react-router-dom'
-import {MdOutlineCreateNewFolder, MdOutlineDashboard, MdOutlineFeaturedPlayList} from 'react-icons/md'
+import {MdOutlineCreateNewFolder, MdOutlineFeaturedPlayList} from 'react-icons/md'
+import { RxDashboard } from "react-icons/rx";
 import {BsBriefcase} from 'react-icons/bs'
 import {AiOutlineUser} from 'react-icons/ai'
 
@@ -30,7 +31,7 @@ const Sidebar = ({sideToggle}) => {
     <div className='flex justify-center md:pl-12 pl-3 flex-col gap-14 items-center pt-20'>
     
     <div className='flex justify-center items-center gap-2'>
-        <Link to='/admin/dashboard'><MdOutlineDashboard className='flex justify-center blueCol items-center gap-2 px-4 py-1' size={20}/>Dashboard</Link>
+        <Link  className='flex justify-center blueCol items-center gap-2 px-4 py-1' to='/admin/dashboard'><RxDashboard  size={20}/>Dashboard</Link>
     </div>
     
      
@@ -39,16 +40,16 @@ const Sidebar = ({sideToggle}) => {
      </div>
 
      <div className='flex justify-center items-center gap-2'>
-        <Link to='/admin/alljobs'><BsBriefcase size={20} className='flex justify-center items-center gap-2 px-4 py-1'/>View All Jobs</Link>
+        <Link  className='flex justify-center blueCol items-center gap-2 px-4 py-1' to='/admin/alljobs'><BsBriefcase size={20} />  View All Jobs</Link>
      </div>
 
 
      <div className='flex justify-center items-center gap-2'>
-     <Link to='/admin/allApplication'><MdOutlineFeaturedPlayList size={20} className='flex justify-center items-center gap-2 px-4 py-1'/>View All Application</Link>
+     <Link  className='flex justify-center blueCol items-center gap-2 px-4 py-1' to='/admin/allApplication'><MdOutlineFeaturedPlayList size={20} />View All Application</Link>
      </div>
 
      <div className='flex justify-center items-center gap-2'>
-        <Link to='/admin/allUsers'><AiOutlineUser size={20} className='flex justify-center items-center gap-2 px-4 py-1'/>View All Users</Link>
+        <Link  className='flex justify-center blueCol items-center gap-2 px-4 py-1' to='/admin/allUsers'><AiOutlineUser size={20} />View All Users</Link>
      </div>
 
     </div>
