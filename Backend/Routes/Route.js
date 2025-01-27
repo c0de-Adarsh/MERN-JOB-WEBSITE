@@ -35,7 +35,7 @@ router.route('/admin/alljobs').get(jwtAuthMiddleware , authorizationRole('admin'
 router.route('/admin/getalluser').get(jwtAuthMiddleware, authorizationRole('admin'),getAllUser)
 router.route('/admin/getallappllication').get(jwtAuthMiddleware , authorizationRole('admin'),getAllApplication)
 router.route('/admin/updateapplication/:id').put(jwtAuthMiddleware,authorizationRole('admin'),updateApplicationStatus)
-router.route('/admin/deleteapplication/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),deleteApplication)
+// router.route('/admin/deleteapplication/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),deleteApplication)
 router.route('/admin/deleteapplication/:id').delete(jwtAuthMiddleware,authorizationRole('admin'),admindeleteApplication)
 router.route('/admin/getapplication/:id').get(jwtAuthMiddleware,authorizationRole('admin'),getApplication)
 router.route('/admin/updateuser/:id').put(jwtAuthMiddleware,authorizationRole('admin'),updateUser)
