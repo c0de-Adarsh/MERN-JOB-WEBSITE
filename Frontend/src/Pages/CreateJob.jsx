@@ -6,6 +6,7 @@ import Sidebar from '../Components/Sidebar'
 import { MdAttachMoney, MdOutlineFeaturedPlayList, MdOutlineLocationOn, MdOutlineReceiptLong, MdOutlineWorkOutline, MdWorkspacesOutline } from 'react-icons/md'
 import { BiBuilding, BiImageAlt } from 'react-icons/bi'
 import { TbLoader2 } from 'react-icons/tb'
+import {createJobPost} from '../Actions/JobAction'
 
 const CreateJob = () => {
 
@@ -28,9 +29,45 @@ const CreateJob = () => {
     const [logoName , setLogoName] = useState('')
 
 
-    const postHandler = (e) => {
-
+    const logoChange = (e) =>{
+      if (e.target.name === "logo") {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setLogo(reader.result);
+            setLogoName(e.target.files[0].name)
+          }
+        };
+  
+        reader.readAsDataURL(e.target.files[0]);
+      }
     }
+
+    const postHandler = (e) => {
+          e.preventDefault()
+
+          const skillArray = skillsRequired.split(",")
+
+          const data = {title , description , companyName , location , logo , skillsRequired:skillArray, experience, salary, category , empolyementType  }
+
+          dispatch(createJobPost(data))
+
+          console.log(data)
+
+          setTitle("");
+          setDescription("");
+          setCompanyName("");
+          setLocation("");
+          setSalary("");
+          setExperience("");
+          setSkillsRequired("")
+          setCategory("");
+          setEmployementType("");
+          setLogo("");
+          setLogoName("")
+    }
+
+  
   return (
     <>
     <Metadata title='postjob' />
@@ -48,7 +85,7 @@ const CreateJob = () => {
 
        <div className='flex justify-center items-start w-full pt-6'>
          
-         <form action="" onSubmit={postHandler} className='md:flex hidden shadow-gray-700 w-full md:mx-0 mx-8'>
+         <form action="" onSubmit={postHandler} className='md:flex hidden shadow-gray-700  md:mx-0 mx-8'>
          <div className='flex flex-col w-full justify-start items-start pt-4 gap-3'>
             <div className='text-4xl pb-1 font-medium border-b w-full'>
                 Post Job
@@ -60,7 +97,7 @@ const CreateJob = () => {
                     <div className='px-2 text-black'>
                         <MdOutlineWorkOutline  size={20}/>
                     </div>
-                    <input type="text" placeholder='Enter Job Title' className=' outline-none bold-placeholder w-full text-black px-1 pr-3 py-2' />
+                    <input type="text" value={title} onChange={(e)=> setTitle(e.target.value)} placeholder='Enter Job Title' className=' outline-none bold-placeholder w-full text-black px-1 pr-3 py-2' />
                 </div>
 
                 
@@ -71,7 +108,7 @@ const CreateJob = () => {
                     <div className='px-2 text-black'>
                         <BiBuilding size={20} />
                     </div>
-                    <input type="text" placeholder='Enter Company Name' className='outline-none bold-placeholder w-full text-black px-1 pr-3 py-2'/>
+                    <input type="text" value={companyName} onChange={(e)=> setCompanyName(e.target.value)} placeholder='Enter Company Name' className='outline-none bold-placeholder w-full text-black px-1 pr-3 py-2'/>
                 </div>
               
 
@@ -81,13 +118,19 @@ const CreateJob = () => {
               <div>
               <div className=' bg-white flex w-[15.2rem] justify-center items-center'>
                     <div className=' px-2 text-black'>
-                        <BiImageAlt size={20} />
+                       {
+                        logo.length !== 0 ?
+                        <img src={logo} className='w-[3em]' alt="" /> :
+                         <BiImageAlt size={20} />
+                       }
                     </div>
-                   <label htmlFor="" className='outline-none w-full cursor-pointer text-black px-1 pr-3 py-2 '>
-
-                   <span className='text-gray-500 font-medium'>Select Company Logo...</span>
+                   <label htmlFor="logo" className='outline-none w-full cursor-pointer text-black px-1 pr-3 py-2 '>
+                   {
+                    logoName.length === 0 ?  <span className='text-gray-500 font-medium'>Select Company Logo...</span> : logoName
+                   }
+                  
                    </label>
-                   <input type='file' className='outline-none  w-full hidden text-black px-1 pr-3 py-2' name="" id="" />
+                   <input type='file' required onChange={logoChange} accept="image/*" className='outline-none  w-full hidden text-black px-1 pr-3 py-2' name="logo" id="logo" />
                 </div>
               </div>
               </div>
@@ -99,7 +142,7 @@ const CreateJob = () => {
         <div className='text-black px-2'>
             <MdOutlineReceiptLong size={20} />
         </div>
-        <input type="text" placeholder='Enter Experience' className='outline-none bold-placeholder text-black w-full px-1 pr-3 py-2 '/>
+        <input type="text" placeholder='Enter Experience' value={experience} onChange={(e)=> setExperience(e.target.value)} className='outline-none bold-placeholder text-black w-full px-1 pr-3 py-2 '/>
        </div>
      
 
@@ -109,7 +152,7 @@ const CreateJob = () => {
         <div className='text-black px-2'>
           <MdOutlineLocationOn size={20} />
         </div>
-        <input type="text" placeholder='Enter Location' className='outline-none bold-placeholder py-2 text-black pr-3 px-1'/>
+        <input type="text" placeholder='Enter Location' value={location} onChange={(e)=> setLocation(e.target.value)} className='outline-none bold-placeholder py-2 text-black pr-3 px-1'/>
       </div>
 
          
@@ -120,7 +163,7 @@ const CreateJob = () => {
             <div className='text-black px-2'>
                 <MdAttachMoney size={20} />
             </div>
-            <input type="text"  placeholder='Enter Salary' className='outline-none bold-placeholder w-full text-black pr-3 py-2 px-1'/>
+            <input type="text" value={salary} onChange={(e)=> setSalary(e.target.value)}  placeholder='Enter Salary' className='outline-none bold-placeholder w-full text-black pr-3 py-2 px-1'/>
          </div>
          </div>
 
@@ -131,7 +174,7 @@ const CreateJob = () => {
              <div className='text-black md:pb-12 pb-8 px-2'>
                 <MdOutlineFeaturedPlayList size={20} />
              </div>
-             <input type="text" placeholder='Job Description' className='outline-none pr-3 w-full px-1 py-2 text-black bold-placeholder' />
+             <input type="text" placeholder='Job Description' className='outline-none pr-3 w-full px-1 py-2 text-black bold-placeholder' value={description} onChange={(e)=> setDescription(e.target.value)} />
           </div>
           </div>
         
@@ -144,7 +187,7 @@ const CreateJob = () => {
               <div className='text-black px-2 pb-8 md:pb-12'>
                 <MdWorkspacesOutline size={20} />
               </div>
-              <textarea name="" id="" placeholder=' Required Skilled' className='outline-none w-full text-black bold-placeholder px-1 pr-3 py-2'></textarea>
+              <textarea value={skillsRequired} onChange={(e)=> setSkillsRequired(e.target.value)} placeholder=' Required Skilled' className='outline-none w-full text-black bold-placeholder px-1 pr-3 py-2'></textarea>
             </div>
           </div>
 
@@ -154,7 +197,7 @@ const CreateJob = () => {
           {/* category */}
           <div className='bg-white flex justify-center items-center'>
              
-             <select name="" id="" className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 '>
+             <select name="" id="large" value={category} onChange={(e)=> setCategory(e.target.value)} className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 '>
              <option selected value="">Select Category</option>
                     <option value="Technology">Technology</option>
                     <option value="Marketing">Marketing</option>
@@ -168,7 +211,7 @@ const CreateJob = () => {
          {/* employement type */}
 
          <div className='bg-white justify-center items-center flex'>
-          <select name="" id="" className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900'>
+          <select name="" id="large" value={empolyementType} onChange={(e)=> setEmployementType(e.target.value)} className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900'>
           <option selected value="">Select Employment Type</option>
                     <option value="full-time">Full-time</option>
                     <option value="part-time">Part-time</option>
@@ -180,7 +223,7 @@ const CreateJob = () => {
   
 
        <div className='flex w-full'>
-           <button className='blueCol w-[20rem] justify-center items-center flex px-4 py-2'>
+           <button disabled={loading} className='blueCol w-[20rem] justify-center items-center flex px-4 py-2'>
             {loading ? <TbLoader2 className='animate-spin' size={20} /> : 'Post Job'}
            </button>
        </div>
@@ -206,7 +249,7 @@ const CreateJob = () => {
                     <div className='px-2 text-black'>
                         <MdOutlineWorkOutline  size={20}/>
                     </div>
-                    <input type="text" placeholder='Enter Job Title' className=' outline-none bold-placeholder w-full text-black px-1 pr-3 py-2' />
+                    <input type="text" value={title} onChange={(e)=> setTitle(e.target.value)} placeholder='Enter Job Title' className=' outline-none bold-placeholder w-full text-black px-1 pr-3 py-2' />
                 </div>
 
 
@@ -217,7 +260,7 @@ const CreateJob = () => {
                     <div className='px-2 text-black'>
                         <BiBuilding size={20} />
                     </div>
-                    <input type="text" placeholder='Enter Company Name' className='outline-none bold-placeholder w-full text-black px-1 pr-3 py-2'/>
+                    <input type="text" value={companyName} onChange={(e)=> setCompanyName(e.target.value)} placeholder='Enter Company Name' className='outline-none bold-placeholder w-full text-black px-1 pr-3 py-2'/>
                 </div>
               
 
@@ -226,14 +269,20 @@ const CreateJob = () => {
                {/* company logo */}
               <div>
               <div className=' bg-white flex w-[15.2rem] justify-center items-center'>
-                    <div className=' px-2 text-black'>
-                        <BiImageAlt size={20} />
+              <div className=' px-2 text-black'>
+                       {
+                        logo.length !== 0 ?
+                        <img src={logo} className='w-[3em]' alt="" /> :
+                         <BiImageAlt size={20} />
+                       }
                     </div>
-                   <label htmlFor="" className='outline-none w-full cursor-pointer text-black px-1 pr-3 py-2 '>
-
-                   <span className='text-gray-500 font-medium'>Select Company Logo...</span>
+                   <label htmlFor="logo" className='outline-none w-full cursor-pointer text-black px-1 pr-3 py-2 '>
+                   {
+                    logoName.length === 0 ?  <span className='text-gray-500 font-medium'>Select Company Logo...</span> : logoName
+                   }
+                  
                    </label>
-                   <input type='file' className='outline-none  w-full hidden text-black px-1 pr-3 py-2' name="" id="" />
+                   <input type='file'  onChange={logoChange} className='outline-none  w-full hidden text-black px-1 pr-3 py-2' name="logo" id="logo" />
                 </div>
               </div>
               
@@ -245,7 +294,7 @@ const CreateJob = () => {
         <div className='text-black px-2'>
             <MdOutlineReceiptLong size={20} />
         </div>
-        <input type="text" placeholder='Enter Experience' className='outline-none bold-placeholder text-black w-full px-1 pr-3 py-2 '/>
+        <input type="text" placeholder='Enter Experience' value={experience} onChange={(e)=> setExperience(e.target.value)} className='outline-none bold-placeholder text-black w-full px-1 pr-3 py-2 '/>
        </div>
      
 
@@ -255,7 +304,7 @@ const CreateJob = () => {
         <div className='text-black px-2'>
           <MdOutlineLocationOn size={20} />
         </div>
-        <input type="text" placeholder='Enter Location' className='outline-none bold-placeholder w-full py-2 text-black pr-3 px-1'/>
+        <input type="text" value={location} onChange={(e)=> setLocation(e.target.value)} placeholder='Enter Location' className='outline-none bold-placeholder w-full py-2 text-black pr-3 px-1'/>
       </div>
 
          
@@ -266,7 +315,7 @@ const CreateJob = () => {
             <div className='text-black px-2'>
                 <MdAttachMoney size={20} />
             </div>
-            <input type="text"  placeholder='Enter Salary' className='outline-none bold-placeholder w-full text-black pr-3 py-2 px-1'/>
+            <input type="text"  placeholder='Enter Salary' value={salary} onChange={(e)=> setSalary(e.target.value)} className='outline-none bold-placeholder w-full text-black pr-3 py-2 px-1'/>
          </div>
         
 
@@ -277,7 +326,7 @@ const CreateJob = () => {
              <div className='text-black md:pb-12 pb-8 px-2'>
                 <MdOutlineFeaturedPlayList size={20} />
              </div>
-             <input type="text" placeholder='Job Description' className='outline-none pr-3 w-full px-1 py-2 text-black bold-placeholder' />
+             <input type="text" placeholder='Job Description' value={description} onChange={(e)=> setDescription(e.target.value)} className='outline-none pr-3 w-full px-1 py-2 text-black bold-placeholder' />
           </div>
           
         
@@ -290,7 +339,7 @@ const CreateJob = () => {
               <div className='text-black px-2 pb-8 md:pb-12'>
                 <MdWorkspacesOutline size={20} />
               </div>
-              <textarea name="" id="" placeholder=' Required Skilled' className='outline-none w-full text-black bold-placeholder px-1 pr-3 py-2'></textarea>
+              <textarea name="" id="" placeholder=' Required Skilled' value={skillsRequired} onChange={(e)=> setSkillsRequired(e.target.value)} className='outline-none w-full text-black bold-placeholder px-1 pr-3 py-2'></textarea>
             </div>
         
 
@@ -300,7 +349,7 @@ const CreateJob = () => {
           {/* category */}
           <div className='bg-white flex justify-center items-center'>
              
-             <select name="" id="" className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 '>
+             <select name="" id="large" value={category} onChange={(e)=> setCategory(e.target.value)} className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 '>
              <option selected value="">Select Category</option>
                     <option value="Technology">Technology</option>
                     <option value="Marketing">Marketing</option>
@@ -314,7 +363,7 @@ const CreateJob = () => {
          {/* employement type */}
 
          <div className='bg-white justify-center items-center flex'>
-          <select name="" id="" className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900'>
+          <select name="" id="large" value={empolyementType} onChange={(e)=> setEmployementType(e.target.value)} className='block w-full px-6 py-2 text-base text-gray-900 border border-gray-300  bg-gray-50 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900'>
           <option selected value="">Select Employment Type</option>
                     <option value="full-time">Full-time</option>
                     <option value="part-time">Part-time</option>
@@ -326,7 +375,7 @@ const CreateJob = () => {
   
 
        <div className='flex w-full'>
-           <button className='blueCol w-[20rem] justify-center items-center flex px-4 py-2'>
+           <button disabled={loading} className='blueCol w-[20rem] justify-center items-center flex px-4 py-2'>
             {loading ? <TbLoader2 className='animate-spin' size={20} /> : 'Post Job'}
            </button>
        </div>

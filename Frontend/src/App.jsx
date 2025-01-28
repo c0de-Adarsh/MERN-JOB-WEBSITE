@@ -10,9 +10,26 @@ import Home from './Pages/Home';
 import { useDispatch, useSelector } from 'react-redux';
 import Dashboard from './Pages/Dashboard';
 import CreateJob from './Pages/CreateJob';
+import { logOrNot, me } from './Actions/UserAction';
+import { getAlljobs } from './Actions/JobAction';
 
 const App = () => {
 
+  const dispatch = useDispatch()
+
+  const {isLogin} = useSelector(state=> state.user)
+
+   useEffect(()=>{
+     dispatch(me())
+   },[isLogin,dispatch])
+
+   useEffect(()=>{
+    const LogOrNot = () =>{
+      dispatch(logOrNot())
+      dispatch(getAlljobs())
+    }
+    LogOrNot()
+   },[])
  
   return (
     <>
