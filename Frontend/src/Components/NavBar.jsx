@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar } from '@mantine/core';
@@ -14,29 +10,30 @@ import { MdDoneAll } from 'react-icons/md';
 import { RiLogoutBoxFill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
-//import { logOrNot } from '../actions/UserActions';
+import { logOrNot } from '../Actions/UserAction';
 import { useNavigate } from 'react-router-dom';
-//import { logoutClearState } from '../slices/UserSlice';
+import { logoutClearState } from '../Slice/UserSlice';
 import { motion } from "framer-motion";
 import useIsMobile from '../Mobile/Mobile';
 
+
  const NavBar = () => {
-    const { isLogin, me } = useState([])
+    const { isLogin, me } = useSelector(state=> state.user)
     const [toggle, setToggle] = useState(false);
-    // const dispatch = useDispatch();
-    // const navigate = useNavigate();
+     const dispatch = useDispatch();
+     const navigate = useNavigate();
 
 
     const isMobile = useIsMobile()
 
-    // const LogOut = () => {
-    //     localStorage.removeItem('userToken');
-    //     localStorage.removeItem('role');
-    //     dispatch(logOrNot());
-    //     navigate('/');
-    //     toast.success("Logout Successful !");
-    //     dispatch(logoutClearState());
-    // }
+    const LogOut = () => {
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('role');
+        dispatch(logOrNot());
+        navigate('/');
+        toast.success("Logout Successful !");
+        dispatch(logoutClearState());
+    }
 
     return (
         <>
@@ -85,7 +82,7 @@ import useIsMobile from '../Mobile/Mobile';
                             {isLogin ? (
                                 <Menu shadow="md" width={200}>
                                     <Menu.Target>
-                                        <Avatar size={28} className='cursor-pointer' radius="xl" src={me.avatar.url} alt="it's me" />
+                                    <Avatar size={28} className='cursor-pointer' radius="xl" src={me.user.avatar.url} alt="it's me" />
                                     </Menu.Target>
 
                                     <Menu.Dropdown>

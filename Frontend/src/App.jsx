@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {BrowserRouter, Navigate, Outlet, Route, Routes} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import NavBar from './Components/NavBar'
@@ -12,6 +12,8 @@ import Dashboard from './Pages/Dashboard';
 import CreateJob from './Pages/CreateJob';
 import { logOrNot, me } from './Actions/UserAction';
 import { getAlljobs } from './Actions/JobAction';
+import NotFound from './Pages/NotFound';
+import UnAuthorized from './Pages/UnAuthorized';
 
 const App = () => {
 
@@ -31,6 +33,13 @@ const App = () => {
     LogOrNot()
    },[])
  
+    const ProtectedRoute = ({isAllowed , redirectPath = '/unauthorized', children}) =>{
+       if(!isAllowed){
+        return <Navigate to={redirectPath} replace />
+       }
+
+       return children ? children : <Outlet/>
+    }
   return (
     <>
     <BrowserRouter>
@@ -40,8 +49,18 @@ const App = () => {
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/about' element={<About/>}/>
+
+      <Route element={<ProtectedRoute isAllowed={['applicant','admin'].includes(localStorage.getItem('role'))}/>} />
+
+      <Route element={<ProtectedRoute isAllowed={"admin" === localStorage.getItem('role')} />}>
+      
       <Route path='/admin/dashboard' element={<Dashboard/>} />
       <Route path='/admin/postjob' element={<CreateJob/>} />
+
+      <Route path='*' element={<NotFound />} />
+        <Route path='/unauthorized' element={<UnAuthorized />} />
+      </Route>
+      
     </Routes>
 
 
