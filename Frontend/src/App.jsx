@@ -9,6 +9,7 @@ import About from './Pages/About'
 import Home from './Pages/Home';
 import { useDispatch, useSelector } from 'react-redux';
 import Dashboard from './Pages/Dashboard';
+import CreateJob from './Pages/CreateJob';
 
 const App = () => {
 
@@ -23,7 +24,10 @@ const App = () => {
       <Route path='/login' element={<Login />}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/admin/dashboard' element={<Dashboard/>} />
+      <Route path='/admin/postjob' element={<CreateJob/>} />
     </Routes>
+
+
     <ToastContainer
         position="top-right"
         autoClose={3000}
