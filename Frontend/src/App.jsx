@@ -16,6 +16,7 @@ import NotFound from './Pages/NotFound';
 import UnAuthorized from './Pages/UnAuthorized';
 import { MyProfile } from './Pages/MyProfile';
 import { Footer } from './Components/Footer';
+import EditProfile from './Pages/EditProfile';
 
 const App = () => {
 
@@ -44,7 +45,7 @@ const App = () => {
     }
   return (
     <>
-    <BrowserRouter>
+   
     <NavBar/>
     <Routes>
       <Route exact path='/' element={<Home/>}/>
@@ -54,6 +55,7 @@ const App = () => {
 
       <Route element={<ProtectedRoute isAllowed={['applicant','admin'].includes(localStorage.getItem('role'))}/>} >
       <Route path='/profile' element={<MyProfile />} />
+      <Route path='/editprofile' element={<EditProfile/>}/>
 
       </Route>
       <Route element={<ProtectedRoute isAllowed={"admin" === localStorage.getItem('role')} />}>
@@ -84,7 +86,7 @@ const App = () => {
       />
     
 
-    </BrowserRouter>
+  
     </>
   )
 }

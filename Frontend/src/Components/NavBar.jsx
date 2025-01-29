@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar } from '@mantine/core';
-import { Menu } from '@mantine/core';
-import { FaBars } from 'react-icons/fa';
+import { Avatar, Menu } from '@mantine/core';
+import { FaBars, FaUserCircle, FaSave } from 'react-icons/fa';
 import { RxCross1 } from 'react-icons/rx';
 import { BsPersonWorkspace } from "react-icons/bs";
-
-import { FaUserCircle, FaSave } from 'react-icons/fa';
 import { MdDoneAll, MdOutlineDashboard } from 'react-icons/md';
 import { RiLogoutBoxFill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
@@ -15,19 +12,6 @@ import { logOrNot } from '../Actions/UserAction';
 import { useNavigate } from 'react-router-dom';
 import { logoutClearState } from '../Slice/UserSlice';
 import useIsMobile from '../Mobile/Mobile';
-
-
-
-import {
-    IconSettings,
-    IconSearch,
-    IconPhoto,
-    IconMessageCircle,
-    IconTrash,
-    IconArrowsLeftRight,
-  } from '@tabler/icons-react';
-
-
 
 const NavBar = () => {
     const { isLogin, me } = useSelector(state => state.user);
@@ -47,9 +31,10 @@ const NavBar = () => {
 
     return (
         <>
-            <div className='text-white z-20 fixed min-w-full bg-gray-950'>
+      
+            <div className='text-white z-50 fixed min-w-full bg-gray-950'>
               {!isMobile &&  <ul className='sm:flex  justify-center items-center gap-24 pt-4 pb-3 font-semibold text-xl'>
-                    <Link to="/" className='flex fixed left-24 justify-center items-center titleT'>
+                    <Link to="/" className='flex fixed gap-2 left-24 justify-center items-center titleT'>
                         <BsPersonWorkspace size={19} />  JobTrail
                     </Link>
 
@@ -58,64 +43,55 @@ const NavBar = () => {
                     <Link to='/contact' className='cool-link'>Contact</Link>
                     <Link to='/about' className='cool-link'>About</Link>
 
-                    {isLogin ? ( 
-                        <Menu shadow="md" width={200}>
-                        <Menu.Target>
-                          <Button>Toggle menu</Button>
-                        </Menu.Target>
-                  
-                        <Menu.Dropdown>
-                          <Menu.Label>Application</Menu.Label>
-                          <Menu.Item leftSection={<IconSettings size={14} />}>
-                            Settings
-                          </Menu.Item>
-                          <Menu.Item leftSection={<IconMessageCircle size={14} />}>
-                            Messages
-                          </Menu.Item>
-                          <Menu.Item leftSection={<IconPhoto size={14} />}>
-                            Gallery
-                          </Menu.Item>
-                          <Menu.Item
-                            leftSection={<IconSearch size={14} />}
-                            rightSection={
-                              <Text size="xs" c="dimmed">
-                                ⌘K
-                              </Text>
-                            }
-                          >
-                            Search
-                          </Menu.Item>
-                  
-                          <Menu.Divider />
-                  
-                          <Menu.Label>Danger zone</Menu.Label>
-                          <Menu.Item
-                            leftSection={<IconArrowsLeftRight size={14} />}
-                          >
-                            Transfer my data
-                          </Menu.Item>
-                          <Menu.Item
-                            color="red"
-                            leftSection={<IconTrash size={14} />}
-                          >
-                            Delete my account
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
-                        // <Menu shadow="md" width={200} >
-                        //     <Menu.Target>
-                        //         <Avatar className='cursor-pointer fixed right-32' radius="xl" src={me.avatar.url} alt="it's me" />
-                        //     </Menu.Target>
-
-                        //     <Menu.Dropdown>
-                        //         <Link to="/profile"><Menu.Item icon={<FaUserCircle size={14} />}>My Profile</Menu.Item></Link>
-                        //         {me.role === "admin" && <Link to="/admin/dashboard"><Menu.Item icon={<MdOutlineDashboard size={14} />}>Dashboard</Menu.Item></Link>}
-                        //         <Link to="/applied"><Menu.Item icon={<MdDoneAll size={14} />}>Applied Jobs</Menu.Item></Link>
-                        //         <Link to="/saved"><Menu.Item icon={<FaSave size={14} />}>Saved Jobs</Menu.Item></Link>
-                        //         <Menu.Divider />
-                        //         <Menu.Item onClick={LogOut} color="red" icon={<RiLogoutBoxFill size={14} />}>Logout</Menu.Item>
-                        //     </Menu.Dropdown>
-                        // </Menu>
+                    {isLogin ? (
+                        <div className="relative"> {/* Parent div को relative रखें */}
+                        <Menu 
+                          shadow="md" 
+                          width={200} 
+                          position="bottom-end" // Dropdown की direction set करें
+                        >
+                          {/* Menu Target (Avatar) */}
+                          <Menu.Target>
+                            <Avatar 
+                              className="cursor-pointer absolute right-8 w-10 h-10" // Fixed की जगह absolute use करें
+                              radius="xl"
+                              src={me?.avatar?.url || "/default-avatar.png"} // Fallback image डालें
+                              alt="Profile"
+                            />
+                          </Menu.Target>
+                    
+                          {/* Dropdown Items */}
+                          <Menu.Dropdown className="z-[1000]"> {/* Z-index बढ़ाएँ */}
+                            <Link to="/profile">
+                              <Menu.Item icon={<FaUserCircle size={14} />}>My Profile</Menu.Item>
+                            </Link>
+                            
+                            {me?.role === "admin" && (
+                              <Link to="/admin/dashboard">
+                                <Menu.Item icon={<MdOutlineDashboard size={14} />}>Dashboard</Menu.Item>
+                              </Link>
+                            )}
+                            
+                            <Link to="/applied">
+                              <Menu.Item icon={<MdDoneAll size={14} />}>Applied Jobs</Menu.Item>
+                            </Link>
+                            
+                            <Link to="/saved">
+                              <Menu.Item icon={<FaSave size={14} />}>Saved Jobs</Menu.Item>
+                            </Link>
+                            
+                            <Menu.Divider />
+                            
+                            <Menu.Item 
+                              onClick={LogOut} 
+                              color="red" 
+                              icon={<RiLogoutBoxFill size={14} />}
+                            >
+                              Logout
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      </div>
                     ) : (
                         <span className='fixed right-24 flex gap-3'>
                             <Link className='cursor-pointer text-sm px-3 py-1 rounded-xl blueCol' to="/login">Login</Link>
@@ -131,21 +107,20 @@ const NavBar = () => {
                     <div className='flex justify-center items-center'>
                         <div className='pr-12'>
                             {isLogin ? (
-                               <Menu shadow="md" width={200} position="bottom-end">
-                               <Menu.Target>
-                                 <Avatar className='cursor-pointer relative' radius="xl" src={me.avatar.url} alt="it's me" />
-                               </Menu.Target>
-                             
-                               <Menu.Dropdown>
-                                 <Link to="/profile"><Menu.Item icon={<FaUserCircle size={14} />}>My Profile</Menu.Item></Link>
-                                 {me.role === "admin" && <Link to="/admin/dashboard"><Menu.Item icon={<MdOutlineDashboard size={14} />}>Dashboard</Menu.Item></Link>}
-                                 <Link to="/applied"><Menu.Item icon={<MdDoneAll size={14} />}>Applied Jobs</Menu.Item></Link>
-                                 <Link to="/saved"><Menu.Item icon={<FaSave size={14} />}>Saved Jobs</Menu.Item></Link>
-                                 <Menu.Divider />
-                                 <Menu.Item onClick={LogOut} color="red" icon={<RiLogoutBoxFill size={14} />}>Logout</Menu.Item>
-                               </Menu.Dropdown>
-                             </Menu>
-                             
+                                <Menu shadow="md" width={200}>
+                                    <Menu.Target>
+                                        <Avatar size={28} className='cursor-pointer' radius="xl" src={me.avatar.url} alt="it's me" />
+                                    </Menu.Target>
+
+                                    <Menu.Dropdown>
+                                        <Link to="/profile"><Menu.Item icon={<FaUserCircle size={14} />}>My Profile</Menu.Item></Link>
+                                        {me.role === "admin" && <Link to="/admin/dashboard"><Menu.Item icon={<MdOutlineDashboard size={14} />}>Dashboard</Menu.Item></Link>}
+                                        <Link to="/applied"><Menu.Item icon={<MdDoneAll size={14} />}>Applied Jobs</Menu.Item></Link>
+                                        <Link to="/saved"><Menu.Item icon={<FaSave size={14} />}>Saved Jobs</Menu.Item></Link>
+                                        <Menu.Divider />
+                                        <Menu.Item onClick={LogOut} color="red" icon={<RiLogoutBoxFill size={14} />}>Logout</Menu.Item>
+                                    </Menu.Dropdown>
+                                </Menu>
                             ) : (
                                 <span className='flex gap-3 fixed top-3 right-16'>
                                     <Link className='cursor-pointer text-sm px-3 py-1 rounded-xl blueCol' to="/login">Login</Link>
@@ -176,6 +151,7 @@ const NavBar = () => {
                 </div>
             </div>
         </>
+    
     );
 }
 
