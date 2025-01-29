@@ -14,6 +14,8 @@ import { logOrNot, me } from './Actions/UserAction';
 import { getAlljobs } from './Actions/JobAction';
 import NotFound from './Pages/NotFound';
 import UnAuthorized from './Pages/UnAuthorized';
+import { MyProfile } from './Pages/MyProfile';
+import { Footer } from './Components/Footer';
 
 const App = () => {
 
@@ -50,8 +52,10 @@ const App = () => {
       <Route path='/login' element={<Login />}/>
       <Route path='/about' element={<About/>}/>
 
-      <Route element={<ProtectedRoute isAllowed={['applicant','admin'].includes(localStorage.getItem('role'))}/>} />
+      <Route element={<ProtectedRoute isAllowed={['applicant','admin'].includes(localStorage.getItem('role'))}/>} >
+      <Route path='/profile' element={<MyProfile />} />
 
+      </Route>
       <Route element={<ProtectedRoute isAllowed={"admin" === localStorage.getItem('role')} />}>
       
       <Route path='/admin/dashboard' element={<Dashboard/>} />
@@ -78,6 +82,7 @@ const App = () => {
         className="mt-14 font-bold  "
 
       />
+    
 
     </BrowserRouter>
     </>

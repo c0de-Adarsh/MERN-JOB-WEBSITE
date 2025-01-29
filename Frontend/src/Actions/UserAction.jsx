@@ -55,6 +55,7 @@ export const registerUser = (userData) => async (dispatch) => {
         dispatch(isLoginSuccess(true))
         localStorage.setItem('UserToken', data.token);
         toast.success("Registration Successful");
+      
 
     } catch (error) {
         dispatch(registerFail(error.response.data.message));
@@ -78,7 +79,8 @@ export const loginUser = (userData) => async (dispatch) =>{
         dispatch(logOrNot())
         dispatch(me())
         toast.success('Login Successfully')
-       
+
+      
     } catch (error) {
         dispatch(loginFail(error.response.data.message))
         toast.error(error.response.data.message)
@@ -98,6 +100,7 @@ export const logOrNot = () => async (dispatch) =>{
 
         const {data} = await axios.get(`${API}/islogin`,config)
         dispatch(isLoginSuccess(data.isLogin))
+        
     } catch (error) {
        dispatch(isLoginFail(error.response.data.message))   
     }
@@ -114,9 +117,9 @@ export const me = () => async (dispatch) =>{
         }
 
         const {data} = await axios.get(`${API}/myaccount`,config)
-        localStorage.setItem('role',data.role)
-        dispatch(getMeSuccess(data.role))
-        console.log(data)
+        localStorage.setItem('role',data.user.role)
+        dispatch(getMeSuccess(data.user))
+       // console.log('my data 111',data.user)
     } catch (error) {
         dispatch(getMeFail(error.response.data.message))
     }
