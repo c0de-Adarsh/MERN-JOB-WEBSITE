@@ -106,22 +106,34 @@ export const logOrNot = () => async (dispatch) =>{
     }
 }
 
-export const me = () => async (dispatch) =>{
+export const me = () => async (dispatch) => {
     try {
-        
+        // Clear any existing error first
         dispatch(getMeRequest())
+        
+        const token = localStorage.getItem('userToken')
+        if (!token) {
+            throw new Error('No auth token found')
+        }
+
         const config = {
-            headers:{
-                Authorization: `Bearer ${localStorage.getItem('userToken')}`
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         }
 
-        const {data} = await axios.get(`${API}/myaccount`,config)
-        localStorage.setItem('role',data.user.role)
-        dispatch(getMeSuccess(data.user))
-       // console.log('my data 111',data.user)
+        const { data } = await axios.get(`${API}/myaccount`, config)
+        
+        if (data?.user) {
+            localStorage.setItem('role', data.user.role)
+            dispatch(getMeSuccess(data.user))
+        } else {
+            throw new Error('Invalid response format')
+        }
     } catch (error) {
-        dispatch(getMeFail(error.response.data.message))
+        const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch user data'
+        dispatch(getMeFail(errorMessage))
+        console.error('ME action error:', errorMessage)
     }
 }
 
