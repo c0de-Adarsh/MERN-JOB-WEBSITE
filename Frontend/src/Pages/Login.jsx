@@ -39,18 +39,18 @@ const Login = () => {
     <div className='flex justify-center w-full items-start pt-14 '>
     <form action="" onSubmit={loginHandler} className=' bg-white flex flex-col md:w-1/3 shadow-gray-900 rounded-md w-full md:mx-0 mx-8'>
 
-      <div className='md:px-10 px-2 py-6 w-full flex flex-col gap-4'>
+      <div className='md:px-10 px-2 py-6  w-full flex flex-col gap-4'>
       <div className='text-center'>
         <p className='text-4xl font-semibold'>Login</p>
       </div>
 
-      <div className='flex border-[1.5px] border-black justify-center items-center'>
+      <div className=' flex justify-center items-center border-[1.5px] border-black'>
         <div className='px-2 text-gray-600'>
           <AiOutlineMail size={20} />
         </div>
         <input type="text" value={email} onChange={(e)=> setEmail(e.target.value)} required placeholder='Enter Your Email' className='outline-none bold-placeholder w-full text-black px-1 pr-3 py-2' />
       </div>
-      <div className='flex border-[1.5px] border-black justify-center items-center'>
+      <div className=' flex justify-center items-center border-[1.5px] border-black'>
         <div className='px-2 text-gray-600'>
           <AiOutlineUnlock size={20} />
         </div>
